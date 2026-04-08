@@ -19,6 +19,9 @@ Licence AGPL http://www.gnu.org/licenses/agpl-3.0.de.html
 #include <iconv.h>
 #include <utf8proc.h>
 #include <wchar.h>
+#if PG_VERSION_NUM >= 160000
+#include <varatt.h>
+#endif
 
 #ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
@@ -42,7 +45,7 @@ Datum osml10n_kanji_transcript(PG_FUNCTION_ARGS) {
   size_t numchars;
   unsigned i;
   char *kakasi_out;
-  char *kakasi_argv[6]={"kakasi","-Ja","-Ha","-Ka","-Ea","-s"};
+  char *kakasi_argv[8]={"kakasi","-i","euc","-Ja","-Ha","-Ka","-Ea","-s"};
   
   if (GetDatabaseEncoding() != PG_UTF8) {
     ereport(ERROR,(errcode(ERRCODE_FEATURE_NOT_SUPPORTED),
@@ -132,7 +135,7 @@ Datum osml10n_kanji_transcript(PG_FUNCTION_ARGS) {
   // 4. run kakasi transliteration
   
   // run kakasi on eucjp string
-  kakasi_getopt_argv(6,kakasi_argv);
+  kakasi_getopt_argv(8,kakasi_argv);
   kakasi_out=kakasi_do(converted_start);
   free(converted_start);
   if (kakasi_out==NULL) {

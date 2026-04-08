@@ -9,13 +9,13 @@ jobs:
 
   ci:
     name: Build and Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       LANG: C.UTF-8
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: src
 
@@ -34,7 +34,7 @@ jobs:
           mv ../*.deb ../*.buildinfo ../*.changes build
 
       - name: Save results
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: src/build
