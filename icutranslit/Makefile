@@ -1,7 +1,7 @@
 
 PGPATH=$(shell pg_config --includedir-server)
 
-CFLAGS=-fpic -fno-exceptions -I$(PGPATH)
+CFLAGS+=-fpic -fno-exceptions -I$(PGPATH)
 
 LIBS=-licui18n
 
